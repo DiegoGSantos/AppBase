@@ -2,11 +2,14 @@ package dextra.android.appbase.features.home.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.SearchView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import dextra.android.appbase.R
 import dextra.android.appbase.base.BaseActivity
+import dextra.android.appbase.features.home.adapter.PostsAdapter
+import dextra.android.appbase.features.home.model.Post
 import dextra.android.appbase.features.home.viewModel.HomeViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,8 +32,10 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
     override fun loadObservers() {
-        viewModel()?.postsLiveData?.observe(this, Observer<List<String>> { names ->
-            updateListOfPosts(names)
+        viewModel()?.postsLiveData?.observe(this, Observer<List<Post>> { posts ->
+            posts?.let {
+                updateListOfPosts(posts)
+            }
         })
     }
 
@@ -58,8 +63,11 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
     // TODO: Create a RecyclerView Adapter
-    private fun updateListOfPosts(posts: List<String>?) {
-        val layoutId = android.R.layout.simple_list_item_1
-        hashTagsView.adapter = ArrayAdapter<String>(this, layoutId, posts)
+    private fun updateListOfPosts(posts: List<Post>) {
+        hashTagsView.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(this.context, 3)
+            adapter = PostsAdapter(this.context, posts)
+        }
     }
 }

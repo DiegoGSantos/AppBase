@@ -10,15 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/hashTagsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/searchView"
-        android:layout_marginTop="15dp">
-
-    </ListView>
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>
 
